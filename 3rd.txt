@@ -1,0 +1,65 @@
+import heapq
+
+def shortestReach(n, edges, s):
+    # Create an adjacency list to represent the graph
+    graph = {i: [] for i in range(1, n + 1)}
+    
+    for u, v, weight in edges:
+        graph[u].append((v, weight))
+        graph[v].append((u, weight))  # Because the graph is undirected
+
+    # Initialize distances with infinity and set the starting node distance to 0
+    distances = {i: float('inf') for i in range(1, n + 1)}
+    distances[s] = 0
+
+    # Priority queue for Dijkstra's algorithm
+    priority_queue = [(0, s)]  # (distance, node)
+
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
+
+        # If the distance is greater than the recorded distance, skip processing
+        if current_distance > distances[current_node]:
+            continue
+
+        # Explore neighbors
+        for neighbor, weight in graph[current_node]:
+            distance = current_distance + weight
+
+            # Only consider this new path if it's better
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(priority_queue, (distance, neighbor))
+
+    # Prepare the result for output, excluding the start node
+    result = []
+    for i in range(1, n + 1):
+        if i != s:
+            result.append(distances[i] if distances[i] != float('inf') else -1)
+
+    return result
+
+# Function to handle multiple test cases
+def processTestCases(test_cases):
+    results = []
+    for case in test_cases:
+        n, edges, s = case
+        results.append(shortestReach(n, edges, s))
+    return results
+
+# Example usage
+if __name__ == "__main__":
+    t = int(input())
+    test_cases = []
+    for _ in range(t):
+        n, m = map(int, input().split())
+        edges = []
+        for _ in range(m):
+            u, v, w = map(int, input().split())
+            edges.append((u, v, w))
+        s = int(input())
+        test_cases.append((n, edges, s))
+    
+    results = processTestCases(test_cases)
+    for result in results:
+        print(" ".join(map(str, result)))
