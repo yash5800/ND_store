@@ -1,0 +1,359 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_HOSTS 10
+
+typedef struct {
+    char ip[16]; // For IPv4 addresses
+} Host;
+
+typedef struct {
+    Host hosts[MAX_HOSTS];
+    int count;
+} Subnet;
+
+void add_host(Subnet *subnet, const char *ip) {
+    if (subnet->count < MAX_HOSTS) {
+        strncpy(subnet->hosts[subnet->count].ip, ip, sizeof(subnet->hosts[subnet->count].ip) - 1);
+        subnet->hosts[subnet->count].ip[sizeof(subnet->hosts[subnet->count].ip) - 1] = '\0'; // Null terminate
+        subnet->count++;
+    } else {
+        printf("Max hosts reached in subnet.\n");
+    }
+}
+
+void print_broadcast_tree(Subnet *subnet) {
+    printf("Broadcast Tree:\n");
+    for (int i = 0; i < subnet->count; i++) {
+        printf("Host %d: %s\n", i + 1, subnet->hosts[i].ip);
+        // For simplicity, we'll assume each host directly broadcasts to all others.
+        for (int j = 0; j < subnet->count; j++) {
+            if (i != j) {
+                printf("  -> Broadcast to Host %d: %s\n", j + 1, subnet->hosts[j].ip);
+            }
+        }
+    }
+}
+
+int main() {
+    Subnet subnet = { .count = 0 };
+    
+    // Example subnet hosts
+    add_host(&subnet, "192.168.1.4");
+add_host(&subnet, "192.168.1.5");
+add_host(&subnet, "192.168.1.6");
+add_host(&subnet, "192.168.1.7");
+add_host(&subnet, "192.168.1.8");
+add_host(&subnet, "192.168.1.9");
+add_host(&subnet, "192.168.1.10");
+add_host(&subnet, "192.168.1.11");
+add_host(&subnet, "192.168.1.1");
+add_host(&subnet, "192.168.1.2");
+add_host(&subnet, "192.168.1.3");
+add_host(&subnet, "192.168.1.4");
+ // Attempt to add the 11th host
+// Attempt to add the 11th host
+
+    
+    print_broadcast_tree(&subnet);
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_IP_LENGTH 16
+
+typedef struct Node {
+    char ip[MAX_IP_LENGTH]; // IP address of the host
+    struct Node** children;  // Array of pointers to child nodes
+    int child_count;         // Number of children
+} Node;
+
+// Function to create a new node
+Node* create_node(const char* ip) {
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    strncpy(new_node->ip, ip, MAX_IP_LENGTH - 1);
+    new_node->ip[MAX_IP_LENGTH - 1] = '\0'; // Null terminate
+    new_node->children = NULL;
+    new_node->child_count = 0;
+    return new_node;
+}
+
+// Function to add a child to a node
+void add_child(Node* parent, Node* child) {
+    parent->children = (Node**)realloc(parent->children, (parent->child_count + 1) * sizeof(Node*));
+    parent->children[parent->child_count] = child;
+    parent->child_count++;
+}
+
+// Recursive function to display the tree structure
+void display_tree(Node* node, const char* parent_ip) {
+    if (node == NULL) return;
+
+    printf("Host %s (parent: %s)\n", node->ip, parent_ip);
+    
+    // Recursively display all children
+    for (int i = 0; i < node->child_count; i++) {
+        display_tree(node->children[i], node->ip);
+    }
+}
+
+// Function to free the memory used by the tree
+void free_tree(Node* node) {
+    if (node == NULL) return;
+    
+    for (int i = 0; i < node->child_count; i++) {
+        free_tree(node->children[i]);
+    }
+    free(node->children);
+    free(node);
+}
+
+int main() {
+    char root_ip[MAX_IP_LENGTH];
+
+    // Get the root IP from the user
+    printf("Enter the root IP address: ");
+    fgets(root_ip, sizeof(root_ip), stdin);
+    root_ip[strcspn(root_ip, "\n")] = 0; // Remove newline character
+
+    Node* root = create_node(root_ip);
+
+    // Input loop for adding children and grandchildren
+    char choice;
+    while (1) {
+        printf("Do you want to add a child (c) or a grandchild (g) to the tree? (Enter 'q' to quit): ");
+        choice = getchar();
+        getchar(); // Consume newline character
+
+        if (choice == 'q') {
+            break;
+        }
+
+        if (choice == 'c' || choice == 'g') {
+            char child_ip[MAX_IP_LENGTH];
+            printf("Enter IP address for the %s: ", (choice == 'c') ? "child" : "grandchild");
+            fgets(child_ip, sizeof(child_ip), stdin);
+            child_ip[strcspn(child_ip, "\n")] = 0; // Remove newline character
+
+            Node* new_host = create_node(child_ip);
+            if (choice == 'c') {
+                add_child(root, new_host);
+            } else {
+                // For grandchildren, prompt for parent IP to add as child
+                char parent_ip[MAX_IP_LENGTH];
+                printf("Enter the parent IP address for this grandchild: ");
+                fgets(parent_ip, sizeof(parent_ip), stdin);
+                parent_ip[strcspn(parent_ip, "\n")] = 0; // Remove newline character
+
+                // Find the parent node to add the grandchild
+                Node* parent_node = root;
+                int found = 0;
+
+                // Search for the parent node
+                while (parent_node) {
+                    if (strcmp(parent_node->ip, parent_ip) == 0) {
+                        add_child(parent_node, new_host);
+                        found = 1;
+                        break;
+                    }
+
+                    // Search children
+                    for (int i = 0; i < parent_node->child_count; i++) {
+                        parent_node = parent_node->children[i];
+                        break; // This will go to the first child to search
+                    }
+
+                    if (!found) {
+                        break; // Exit if not found
+                    }
+                }
+
+                if (!found) {
+                    printf("Parent IP %s not found in the tree!\n", parent_ip);
+                    free(new_host); // Free the memory if not added
+                }
+            }
+        } else {
+            printf("Invalid choice! Please enter 'c' for child or 'g' for grandchild.\n");
+        }
+
+        // Clear input buffer
+        while (getchar() != '\n');
+    }
+
+    // Display the final tree structure
+    printf("\nFinal Tree Structure:\n");
+    display_tree(root, "None");
+
+    // Free the allocated memory
+    free_tree(root);
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_IP_LENGTH 16
+
+typedef struct Node {
+    char ip[MAX_IP_LENGTH];
+    struct Node** children;
+    int child_count;
+} Node;
+
+Node* create_node(const char* ip) {
+    Node* new_node = malloc(sizeof(Node));
+    strncpy(new_node->ip, ip, MAX_IP_LENGTH);
+    new_node->children = NULL;
+    new_node->child_count = 0;
+    return new_node;
+}
+
+void add_child(Node* parent, Node* child) {
+    parent->children = realloc(parent->children, (parent->child_count + 1) * sizeof(Node*));
+    parent->children[parent->child_count++] = child;
+}
+
+Node* find_parent(Node* node, const char* parent_ip) {
+    if (!node) return NULL;
+    if (strcmp(node->ip, parent_ip) == 0) return node;
+
+    for (int i = 0; i < node->child_count; i++) {
+        Node* found = find_parent(node->children[i], parent_ip);
+        if (found) return found;
+    }
+    return NULL;
+}
+
+void display_tree(Node* node, const char* parent_ip) {
+    if (node) {
+        printf("Host %s (parent: %s)\n", node->ip, parent_ip);
+        for (int i = 0; i < node->child_count; i++) {
+            display_tree(node->children[i], node->ip);
+        }
+    }
+}
+
+void free_tree(Node* node) {
+    if (node) {
+        for (int i = 0; i < node->child_count; i++) {
+            free_tree(node->children[i]);
+        }
+        free(node->children);
+        free(node);
+    }
+}
+
+int main() {
+    char root_ip[MAX_IP_LENGTH], choice;
+    printf("Enter the root IP address: ");
+    fgets(root_ip, sizeof(root_ip), stdin);
+    root_ip[strcspn(root_ip, "\n")] = 0;
+
+    Node* root = create_node(root_ip);
+    
+    while (1) {
+        printf("Add child (c), grandchild (g), or quit (q)? ");
+        choice = getchar(); getchar(); // Read choice and consume newline
+
+        if (choice == 'q') break;
+
+        char new_ip[MAX_IP_LENGTH];
+        printf("Enter IP address for the %s: ", (choice == 'c') ? "child" : "grandchild");
+        fgets(new_ip, sizeof(new_ip), stdin);
+        new_ip[strcspn(new_ip, "\n")] = 0;
+
+        if (choice == 'c') {
+            add_child(root, create_node(new_ip));
+        } else if (choice == 'g') {
+            char parent_ip[MAX_IP_LENGTH];
+            printf("Enter parent IP address: ");
+            fgets(parent_ip, sizeof(parent_ip), stdin);
+            parent_ip[strcspn(parent_ip, "\n")] = 0;
+
+            Node* parent = find_parent(root, parent_ip);
+            if (parent) {
+                add_child(parent, create_node(new_ip));
+            } else {
+                printf("Parent IP %s not found!\n", parent_ip);
+            }
+        } else {
+            printf("Invalid choice!\n");
+        }
+    }
+
+    printf("\nFinal Tree Structure:\n");
+    display_tree(root, "None");
+    free_tree(root);
+    
+    return 0;
+}
