@@ -1,0 +1,9 @@
+CREATE TABLE etion (
+    fname VARCHAR2(50),
+    lname VARCHAR2(50),
+    username VARCHAR2(50) UNIQUE,
+    password VARCHAR2(100),
+    email VARCHAR2(100) UNIQUE,
+    phone VARCHAR2(15),
+    address VARCHAR2(255)
+);
