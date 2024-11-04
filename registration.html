@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Registration Page</title>
+        <style>
+            /* Add border and padding to the form */
+            form {
+                border: 2px solid black;
+                padding: 20px;
+                width: 300px;
+                margin: auto;
+                background-color: white;
+                border-radius: 10px;
+            }
+
+            body {
+                background-color: lightblue;
+            }
+
+            h1 {
+                font-family: Arial, sans-serif;
+            }
+
+            label, input, select {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }
+        </style>
+        <script>
+            function validate() {
+                var uname = document.f1.uname.value;
+                var pass = document.f1.pass.value;
+                var email = document.f1.email.value;
+                var phone = document.f1.phone.value;
+                var gender = document.f1.gender.value;
+
+                if (uname == "" || uname == "null") {
+                    alert("Username is invalid");
+                    return false;
+                }
+                if (pass == "" || pass == "null") {
+                    alert("Password is invalid");
+                    return false;
+                }
+                if (email == "" || email == "null" || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                    alert("Email is invalid");
+                    return false;
+                }
+                if (phone == "" || phone == "null" || !phone.match(/^[0-9]{10}$/)) {
+                    alert("Phone number is invalid");
+                    return false;
+                }
+                if (gender == "Select") {
+                    alert("Please select your gender");
+                    return false;
+                }
+
+                alert("Resgistration is Succcess");
+                return true;
+            }
+        </script>
+    </head>
+    
+    <body align="center">
+        <h1><font color="blue"><u>REGISTRATION PAGE</u></font></h1>
+        <form name="f1" method="post" onsubmit="return validate()">
+            <label>Username:</label>
+            <input type="text" name="uname" pattern="[a-zA-Z]{6,20}" placeholder="Only characters (6-20)"><br><br>
+            
+            <label>Password:</label>
+            <input type="password" name="pass" pattern="[a-zA-Z0-9@$]{8,20}" placeholder="At least 8 characters"><br><br>
+            
+            <label>Email:</label>
+            <input type="text" name="email" placeholder="example@example.com"><br><br>
+            
+            <label>Phone:</label>
+            <input type="text" name="phone" placeholder="10-digit phone number"><br><br>
+
+            <label>Gender:</label>
+            <select name="gender">
+                <option>Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select><br><br>
+
+            <input type="submit" value="REGISTER">&nbsp;&nbsp;
+            <input type="reset" value="RESET">
+        </form>
+    </body>
+</html>
