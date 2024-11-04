@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <style>
+
+            body{
+                background-image: linear-gradient(pink,lightgreen,cyan);
+            }
+
+            #v{
+                color:hotpink;
+                text-align: center;
+                font-weight: bolder;
+                font-family: Algerian;
+            }
+
+            h1{
+                text-align: center;
+                text-decoration: underline wavy red;
+                font-style: italic;
+                font-size: xx-large;
+                text-transform: capitalize;
+                text-shadow: 2pt 1pt red;
+            }
+        </style>
+    </head>
+
+        <body>
+            <h1>LOGIN PAGE</h1>
+            <table style="margin-left:auto;margin-right:auto;">
+                
+                <tr>
+                    <td id="v"><label>Enter Username:</label></td>
+                    <td style="border-style:solid"><input type="text"></td>
+                </tr><br>
+
+                <tr>
+                    <td id="v"><label>Enter Password:</label></td>
+                    <td style="border-style:double"><input type="password"></td>
+                </tr><br>
+
+                <tr>
+                    <td id="v"><label>Confirm Password:</label></td>
+                    <td style="border-style:groove"><input type="password"></td>
+                </tr><br>
+
+                <tr>
+                    <td><input type="submit" value="SUBMIT"></td>
+                    <td><input type="reset" value="RESET"></td>
+                </tr>
+        </body>
+</html>
