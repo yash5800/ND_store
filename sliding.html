@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#b1").click(function(){
+                    $("h1").slideUp(1000);
+                });
+
+                $("#b2").click(function(){
+                    $("h1").slideDown("slow");
+                });
+                
+                $("#b3").click(function(){
+                    $("h1").slideToggle("fast");
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1 style="background-color:lightblue">This text can be slided up and down</h1>
+        <button id="b1"> Slide up </button>
+        <button id="b2"> Slide down </button>
+        <button id="b3"> Slide Toggle </button>
+    </body>
+</html>
