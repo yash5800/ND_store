@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#b1").click(function(){
+                    $("img").fadeOut(1000);
+                });
+
+                $("#b2").click(function(){
+                    $("img").fadeIn("slow");
+                });
+
+                $("#b3").click(function(){
+                    $("img").fadeToggle("fast");
+                });
+
+                $("#b4").click(function(){
+                    $("img").fadeTo("slow",0.3);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <img src="car.jpg" height="400" width="700">
+        <button id="b1">FadeOut</button>
+        <button id="b2">FadeIn</button>
+        <button id="b3">FadeToggle</button>
+        <button id="b3">FadeTo</button>
+    </body>
+</html>
