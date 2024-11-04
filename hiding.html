@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#b1").click(function(){
+                    $("img").hide(1000);
+                });
+
+                $("#b2").click(function(){
+                    $("img").show("slow");
+                });
+
+                $("#b3").click(function(){
+                    $("img").toggle("fast");
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <img src="car.jpg" height="400" width="700">
+        <button id="b1"> Hide </button>
+        <button id="b2"> Show </button>
+        <button id="b3"> Toggle </button>
+    </body>
+</html>
