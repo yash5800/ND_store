@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE books SYSTEM "books.dtd">
+<books>
+    <book>
+        <title>Effective Java</title>
+        <author>Joshua Bloch</author>
+        <isbn>978-0134685991</isbn>
+        <publisher>Addison-Wesley Professional</publisher>
+        <edition>3</edition>
+        <price>45.00</price>
+    </book>
+    <book>
+        <title>Clean Code</title>
+        <author>Robert C. Martin</author>
+        <isbn>978-0132350884</isbn>
+        <publisher>Prentice Hall</publisher>
+        <edition>1</edition>
+        <price>42.35</price>
+    </book>
+    <book>
+        <title>The Pragmatic Programmer</title>
+        <author>Andrew Hunt, David Thomas</author>
+        <isbn>978-0201616224</isbn>
+        <publisher>Addison-Wesley</publisher>
+        <edition>1</edition>
+        <price>35.67</price>
+    </book>
+</books>
