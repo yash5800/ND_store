@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#i1").mouseenter(function(){
+                    $("#i1").css("background-color","white");
+                });
+                
+                $("#i1").mouseout(function(){
+                    $("#i1").css("background-color","pink");
+                });
+                $("#i2").mousedown(function(){
+                    $("#i2").css("background-color","magenta");
+                });
+                $("#i2").mouseup(function(){
+                    $("#i2").css("background-color","yellow");
+                });
+                $("#i3").mouseover(function(){
+                    alert("cursor is over this heading");
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1 id="i1">Heading 1</h1>
+        <h1 id="i2">Heading 2</h1>
+        <h1 id="i3">Heading 3</h1>
+    </body>
+</html>
