@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <body>
+            <font color="black"><h1><i>LOGIN PAGE</i></h1></font>
+            <form>
+                <label>Enter Username:</label>
+                <input type="text" ><br><br>
+
+                <label>Enter Password:</label>
+                <input type="password"><br><br>
+
+                <input type="submit" value="submit">
+                <input type="reset" value="reset">
+            </form>
+        </body>
+    </head>
+</html>
