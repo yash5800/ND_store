@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Login Page</title>
+        <style>
+            /* Add border and padding to the form */
+            form {
+                border: 2px solid black;
+                padding: 20px;
+                width: 300px;
+                margin: auto;
+                background-color: white;
+                border-radius: 10px;
+            }
+
+            body {
+                background-color: lightblue;
+            }
+
+            h1 {
+                font-family: Arial, sans-serif;
+            }
+
+            label, input, select {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }
+        </style>
+        <script>
+            function validate()
+            {
+                var uname=document.f1.uname.value;
+                if(uname==""|| uname=="null")
+                {
+                    alert("username is invalid");
+                    return false;
+                }
+                
+
+                var pass = document.f1.pass.value;
+                if(pass==""|| pass=="null")
+                {
+                    alert("Password is invalid");
+                    return false;
+                }
+
+                alert("Login Success")
+                return true;
+            }
+        </script>
+    </head>
+
+    <body align="center">
+        
+        <h1><font color="red"><u>LOGIN PAGE</u></font></h1>
+        <form name="f1" method="post" onsubmit="return validate()">
+            <label>Username:</label>
+            <input type="text" name="uname" pattern="[a-zA-Z]{6,20}" placeholder="only characters atleast 6"><br><br>
+            <label>Password:</label>
+            <input type="password" name="pass" pattern="[a-zA-Z0-9$@]{8,20}" placeholder="atleast 8 characters"><br><br>
+            <input type="submit" value="LOGIN">&nbsp &nbsp
+            <input type="reset" value="RESET">
+        </form>
+    </body>
+</html>
